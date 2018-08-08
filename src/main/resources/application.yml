@@ -1,0 +1,59 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /admin
+    
+spring:
+  application:
+    name: admin
+#  mvc:
+#    static-path-pattern: /admin/**
+#  resources:
+#    static-locations:
+#    - classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+
+  # 开发时关闭缓存,不然没法看到实时页面
+#  thymeleaf:
+#    cache: false
+    
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: root
+    password: root
+    
+    filters: stat,wall,log4j
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+    logSlowSql: true
+
+mybatis:
+  config-location: classpath:mybatis.xml
+  mapper-locations:
+  - classpath:mapper/*Mapper.xml
+  
+# 分页配置
+#pagehelper:
+#  helper-dialect: mysql
+#  reasonable: true
+#  support-methods-arguments: true
+#  params: count=countSql
+  
+#配置日志
+logging:
+  #配置日志文件路径
+  level:
+    xatu.zsl: debug #不同目录下的日志可配置不同级别
+    org.springfromework.web: info
+    

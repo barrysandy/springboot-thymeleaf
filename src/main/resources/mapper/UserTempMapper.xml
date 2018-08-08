@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgb.org.dao.UserTempMapper">
+	<resultMap id="BaseResultMap" type="com.xgb.org.domain.UserTemp">
+		<id property="id" column="id" javaType="java.lang.String"></id>
+		<result property="name" column="name" javaType="java.lang.String"></result>
+		<result property="password" column="password" javaType="java.lang.String"></result>
+		<result property="descM" column="descM" javaType="java.lang.String"></result>
+	</resultMap>
+	<sql id="Base_Column_List">
+		id,name,password,descM
+	</sql>
+	
+	<!-- 按ID查询 -->
+	<select id="getBeanById" parameterType="com.xgb.org.domain.UserTemp" resultMap="BaseResultMap">
+		select <include refid="Base_Column_List" /> from t_user_temp where id = #{id}
+	</select>
+	
+	<!-- 按ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from t_user_temp where id = #{id}
+	</delete>
+	
+	<!-- 保存用户 -->
+	<insert id="save" parameterType="com.xgb.org.domain.UserTemp">
+		insert into t_user_temp
+		(id,name,password,descM)
+		values
+		(#{id},#{name},#{password},#{descM} )
+	</insert>
+	
+	<!-- 更新用户 -->
+	<update id="update" parameterType="com.xgb.org.domain.UserTemp">
+		update t_user_temp
+		<set>
+			<if test="id != null">id =#{id},</if>
+			<if test="name != null">name =#{name},</if>
+			<if test="password != null">password =#{password},</if>
+			<if test="descM != null">descM =#{descM},</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	
+	<select id="getList" parameterType="java.util.Map"
+		resultMap="BaseResultMap" resultType="java.util.List">
+		select
+		<include refid="Base_Column_List" />
+		from t_user_temp where 1=1 
+		<if test="search != null">
+			AND (name LIKE concat('%',#{search},'%') OR descM LIKE concat('%',#{search},'%'))
+		</if>
+	</select>
+	
+	<select id="getCount" parameterType="com.xgb.org.domain.UserTemp" resultType="int">
+		select count(*) from t_user_temp where 1=1 
+		<if test="search != null">
+			AND (name LIKE concat('%',#{search},'%') OR descM LIKE concat('%',#{search},'%'))
+		</if>
+	</select>
+	
+
+</mapper>
